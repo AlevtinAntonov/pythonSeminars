@@ -1,1 +1,2 @@
-# pythonSeminars
+# Python Seminars
+## Home works
