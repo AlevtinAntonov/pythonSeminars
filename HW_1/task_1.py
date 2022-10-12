@@ -8,13 +8,12 @@
 while True:
     try:
         day_of_week = int(input('Введите день недели (цифра от 1 до 7): '))
-        if 1 <= day_of_week <= 7:
-            if day_of_week == 6 or day_of_week == 7:
-                print('да')
-                break
-            else:
-                print('нет')
-                break
+        if day_of_week == 6 or day_of_week == 7:
+            print('да')
+            break
+        elif 1 <= day_of_week <= 5:
+            print('нет')
+            break
         else:
             print(f'Введено некорректное число - {day_of_week} ')
 

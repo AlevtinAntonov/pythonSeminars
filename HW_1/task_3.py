@@ -12,16 +12,16 @@ while True:
         x = int(input('Введите координату х: '))
         y = int(input('Введите координату y: '))
 
-        if x > 0 and y > 0:
+        if x > 0 < y:
             print(f'Точка с координатами x - {x} и y - {y} находится в 1 четверти')
             break
-        elif x < 0 and y > 0:
+        elif x < 0 < y:
             print(f'Точка с координатами x - {x} и y - {y} находится во 2 четверти')
             break
-        elif x < 0 and y < 0:
+        elif x < 0 > y:
             print(f'Точка с координатами x - {x} и y - {y} находится в 3 четверти')
             break
-        elif x > 0 and y < 0:
+        elif x > 0 > y:
             print(f'Точка с координатами x - {x} и y - {y} находится в 4 четверти')
             break
         elif x == 0 and y != 0:
