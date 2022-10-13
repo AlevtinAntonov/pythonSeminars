@@ -2,3 +2,5 @@
 # Пример:
 # 6782 -> 23
 # 0,56 -> 11
+
+print(sum(map(int, list("".join(c for c in input('Введите число: ') if c.isdecimal())))))
