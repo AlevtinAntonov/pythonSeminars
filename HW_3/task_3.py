@@ -8,10 +8,10 @@ from decimal import *
 
 lst = [1.1, 1.2, 3.1, 5, 10.01]
 lst_fraction = []
-getcontext().prec = 2
+getcontext().prec = 1
 
 for i in lst:
-    # lst_fraction.append(i % 1) # 1 variant
-    lst_fraction.append(i - int(i))  # 2 variant
+    lst_fraction.append(Decimal(i % 1)) # 1 variant
+    # lst_fraction.append(Decimal(i) - int(i))  # 2 variant
 
-print(f'Разница :', Decimal(max(lst_fraction)) - Decimal(min(lst_fraction)))
+print(f'Разница :', max(lst_fraction) - min(lst_fraction))

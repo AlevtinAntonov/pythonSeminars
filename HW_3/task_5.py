@@ -13,27 +13,26 @@ fib = [0, 1]
 
 if num > 2:
     for i in range(2, num):
-        fib.append(fib[i - 1] + fib[i - 2])
+        fib = fib + [fib[i - 1] + fib[i - 2]]  # fib.append(fib[i - 1] + fib[i - 2])
 
 non_fib = [-1, 1]
-
 for i in range(3, num):
-    non_fib.insert(0, (-1) ** (i + 1) * fib[i])
+    non_fib = [(-1) ** (i + 1) * fib[i]] + non_fib  # non_fib.insert(0, (-1) ** (i + 1) * fib[i])
 
-print(f'Для k = {num} -> ', non_fib + fib)
+print(f'1 вариант для k = {num} -> ', non_fib + fib)
 
 # 2 variant
 fibo_nums = []
 a, b = 1, 1
 
 for i in range(num - 1):
-    fibo_nums.append(a)
+    fibo_nums = fibo_nums + [a]  # fibo_nums.append(a)
     a, b = b, a + b
 
 a, b = 0, 1
 
 for i in range(num):
-    fibo_nums.insert(0, a)
+    fibo_nums = [a] + fibo_nums  # fibo_nums.insert(0, a)
     a, b = b, a - b
 
-print(f'Для k = {num} -> ', fibo_nums)
+print(f'2 вариант для k = {num} -> ', fibo_nums)
