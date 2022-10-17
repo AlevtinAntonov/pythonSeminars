@@ -6,3 +6,16 @@
 #
 # [2, 3, 4, 5, 6] => [12, 15, 16];
 # [2, 3, 5, 6] => [12, 15]
+
+lst = [2, 3, 4, 5, 6]
+# lst = [2, 3, 5, 6]
+product = []
+k = 0
+
+if len(lst) % 2 != 0:
+    k = 1
+
+for i in range(0, int((len(lst) / 2 + k))):
+    product.append(lst[i] * lst[len(lst) - i - 1])
+
+print(product)
