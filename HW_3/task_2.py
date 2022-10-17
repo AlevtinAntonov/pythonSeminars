@@ -16,6 +16,6 @@ if len(lst) % 2 != 0:
     k = 1
 
 for i in range((len(lst) + 1) // 2 ):
-    product.append(lst[i] * lst[len(lst) - i - 1])
+    product.append(lst[i] * lst[-i - 1])
 
 print(product)
