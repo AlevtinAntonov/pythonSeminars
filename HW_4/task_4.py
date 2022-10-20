@@ -20,17 +20,29 @@ dict_ = {
 }
 
 lst_coefficient = []
-for i in range(k):
+for i in range(k + 1):
     lst_coefficient.append(random.randint(0, 100))
 
 print(f'{k=}, {lst_coefficient}')
-lst = []
-i = 1
-while i <= k:
-    lst = [str('x' + dict_[k]) + '+']
 
-    while i - 1 <= k:
-        lst = [str('x' + dict_[k - i])] + lst
-        i+=1
+lst = []
+i = 2
+while i <= k:
+    if lst_coefficient[-i-1] != 0:
+        lst += [str(lst_coefficient[-i-1]) + str('x' + dict_[i])]
     i += 1
-print(lst)
+if lst_coefficient[k - 1] != 0:
+    lst = [str(lst_coefficient[k - 1]) + 'x'] + lst
+if lst_coefficient[k] != 0:
+    lst = [str(lst_coefficient[k])] + lst
+lst = [' = 0'] + lst
+lst.reverse()
+result = str(' + '.join((lst[:-1])) + lst[-1])
+print(result)
+
+with open('file.txt', 'ab') as out_file:
+    data = '\n' + result
+    out_file.write(data.encode('utf8'))
+
+
+
