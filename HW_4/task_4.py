@@ -6,43 +6,52 @@
 import random
 
 k = random.randint(2, 6)
-dict_ = {
-    0: "\u2070",
-    1: "\u00B9",
-    2: "\u00B2",
-    3: "\u00B3",
-    4: "\u2074",
-    5: "\u2075",
-    6: "\u2076",
-    7: "\u2077",
-    8: "\u2078",
-    9: "\u2079"
-}
-
 lst_coefficient = []
 for i in range(k + 1):
     lst_coefficient.append(random.randint(0, 100))
+print(f'{k=}, {lst_coefficient=}')
 
-print(f'{k=}, {lst_coefficient}')
+lst_coefficient.reverse()
 
-lst = []
-i = 2
-while i <= k:
-    if lst_coefficient[-i-1] != 0:
-        lst += [str(lst_coefficient[-i-1]) + str('x' + dict_[i])]
-    i += 1
-if lst_coefficient[k - 1] != 0:
-    lst = [str(lst_coefficient[k - 1]) + 'x'] + lst
-if lst_coefficient[k] != 0:
-    lst = [str(lst_coefficient[k])] + lst
-lst = [' = 0'] + lst
-lst.reverse()
-result = str(' + '.join((lst[:-1])) + lst[-1])
-print(result)
-
-with open('file.txt', 'ab') as out_file:
-    data = '\n' + result
-    out_file.write(data.encode('utf8'))
+polynom = '+'.join([f'{(j, "")[j == 1]}x^{i}' for i, j in enumerate(lst_coefficient) if j][::-1])
+polynom = polynom.replace('x^0', '')
+polynom = polynom.replace('x^1', 'x')
+polynom = polynom + '=0'
+print(polynom)
+with open('file.txt', 'a') as file:
+    data = '\n' + polynom
+    file.write(data)
 
 
-
+# import random
+#
+# k = random.randint(2, 6)
+# dict_ = {
+#     0: "\u2070",
+#     1: "\u00B9",
+#     2: "\u00B2",
+#     3: "\u00B3",
+#     4: "\u2074",
+#     5: "\u2075",
+#     6: "\u2076",
+#     7: "\u2077",
+#     8: "\u2078",
+#     9: "\u2079"
+# }
+#
+# lst_coefficient = []
+# for i in range(k + 1):
+#     lst_coefficient.append(random.randint(0, 100))
+# print(f'{k=}, {lst_coefficient=}')
+#
+# lst_coefficient.reverse()
+#
+# polynom = '+'.join([f'{(j, "")[j == 1]}x{dict_[i]}' for i, j in enumerate(lst_coefficient) if j][::-1])
+# polynom = polynom.replace(('x' + str(dict_[0])), '')
+# polynom = polynom.replace(str(dict_[1]), '')
+# polynom = polynom + '=0'
+# print(polynom)
+#
+# with open('file.txt', 'ab') as file:
+#     data = '\n' + polynom
+#     file.write(data.encode('utf8'))
