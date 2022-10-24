@@ -4,6 +4,7 @@
 import random
 
 n = random.randint(2, 1000)
+# n = 100
 print(f'Задано натуральное число {n=}')
 
 factors = []
@@ -13,7 +14,7 @@ while i * i <= n:
         n //= i
         factors.append(i)
     i += 1
-if n > 1:
+if n > 1:  # Если убрать проверку, то в конце может добавиться 1, например при n = 100
     factors.append(n)
 
-print(f'Список простых множителей -> {sorted(list(set(factors)))}')
+print(f'Список простых множителей -> {factors}')

@@ -1,17 +1,30 @@
 # 5) Даны два файла, в каждом из которых находится запись многочлена.
 #     Задача - сформировать файл, содержащий сумму многочленов.
 
-with open('file.txt', 'r') as in_file:
-    lst = []
-    for line in in_file:
-        lst.append(line)
-print(lst)
-lst_res = []
-for item in lst:
-    item = item.replace('\n', '')
+from sympy import Symbol, collect
+def convert(item):
     item = item.replace('=0', '')
+    item = item.replace('x+', '*x+')
     item = item.replace('x^', '*x**')
-    lst_res.append(item)
-print(lst_res)
+    return item
 
+
+with open('file_1.txt', 'r') as data_1:
+    polynom_1 = data_1.readline()
+with open('file_2.txt', 'r') as data_2:
+    polynom_2 = data_2.readline()
+print(f'Исходный многочлен из file_1.txt {polynom_1=}')
+print(f'Исходный многочлен из file_2.txt {polynom_2=}')
+
+polynom_1 = convert(polynom_1)
+polynom_2 = convert(polynom_2)
+
+x = Symbol('x')
+
+result = str(collect(str(polynom_1) + '+' + str(polynom_2), x))
+result = result.replace('**', '^')
+result = result.replace('*', '')
+result = result + '=0'
+
+print(f'Сумма многочленов {result=}')
 
