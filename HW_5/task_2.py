@@ -9,10 +9,12 @@
 
 import random
 
-number_of_candies = 121
+number_of_candies = 2021
 player_1 = 0
 player_2 = 0
 max_candies = 28
+first_move = 1
+second_move = 0
 
 
 def taken_candies(num):
@@ -26,7 +28,8 @@ def taken_candies(num):
 
 
 def check_taken_candies(num):
-    global number_of_candies
+    global number_of_candies, first_move, second_move
+    first_move, second_move = second_move, first_move
     if 0 < num <= max_candies:
         number_of_candies -= num
         return number_of_candies
@@ -50,7 +53,8 @@ def clever_bot_taken_candies(num):
     return num
 
 
-type_game = int(input('Игра вариант игры: 1 - с игроком (по умолчанию) или 2 - с просто Ботом или 3 - с умным Ботом ') or 1)
+type_game = int(
+    input('Игра вариант игры: 1 - с игроком (по умолчанию) или 2 - с просто Ботом или 3 - с умным Ботом ') or 1)
 
 if type_game == 1:
     name_player_1 = input('Введите имя 1 игрока: ')
@@ -66,15 +70,7 @@ if player == 1:
 else:
     print(f'Первый ход у игрока - {name_player_2}')
     name_player_1, name_player_2 = name_player_2, name_player_1
-
-player_list = {
-
-}
-
-print(f'{type_game=}')
-print(f'{player=}')
-print(f'{name_player_1=}')
-print(f'{name_player_2=}')
+    first_move, second_move = second_move, first_move
 
 while number_of_candies > 0:
     if type_game == 1:
@@ -106,7 +102,8 @@ while number_of_candies > 0:
                 check_taken_candies(player_2)
 
     if number_of_candies <= max_candies:
-        if player == 1:
+        # first_move, second_move = second_move, first_move
+        if player == 1 and first_move:
             print(f'Осталось {number_of_candies} конфет и их забирает ПОБЕДИТЕЛЬ! - игрок : {name_player_1}')
             break
         else:
