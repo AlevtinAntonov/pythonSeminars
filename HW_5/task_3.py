@@ -3,7 +3,10 @@
 from tkinter import *
 from tkinter import messagebox
 
-frm = []
+root = Tk()
+root.title('Крестики - нолики')
+root.geometry("400x400")
+field = []
 btn = []
 player = True
 playArea = []
@@ -34,13 +37,13 @@ def play(n):
 
 
 for i in range(3):
-    frm.append(Frame())
-    frm[i].pack(expand=YES, fill=BOTH)
+    field.append(Frame())
+    field[i].pack(expand=YES, fill=BOTH)
     for j in range(3):
-        btn.append(Button(frm[i], text=' ', font=('mono', 30, 'bold'), width=4, height=2))
+        btn.append(Button(field[i], text=' ', font=('mono', 30, 'bold'), width=4, height=2))
         btn[i * 3 + j].config(command=lambda n=i * 3 + j: play(n))
         btn[i * 3 + j].pack(expand=YES, fill=BOTH, side=LEFT, padx=1, pady=1)
         playArea.append(0)
         standings.append(0)
 
-mainloop()
+root.mainloop()
