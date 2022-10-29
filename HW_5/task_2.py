@@ -9,10 +9,10 @@
 
 import random
 
-number_of_candies = 2021
+number_of_candies = 15
 player_1 = 0
 player_2 = 0
-max_candies = 28
+max_candies = 5
 first_move = 1
 second_move = 0
 
@@ -34,7 +34,7 @@ def check_taken_candies(num):
         number_of_candies -= num
         return number_of_candies
     else:
-        number_of_candies -= max_candies
+        number_of_candies -= 1
         return number_of_candies
 
 
@@ -49,6 +49,8 @@ def clever_bot_taken_candies(num):
         num = number_of_candies % (max_candies + 1)
     else:
         num = number_of_candies - max_candies - 1
+    if num == 0:
+        num = 1
     print(f'Bot взял {num} конфет')
     return num
 
