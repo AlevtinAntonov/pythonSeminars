@@ -34,7 +34,8 @@ def check_taken_candies(num):
         number_of_candies -= num
         return number_of_candies
     else:
-        number_of_candies -= 1
+        print(f'Вы ввели число больше разрешенного максимума {max_candies}, поэтому вы взяли {max_candies} конфет')
+        number_of_candies -= max_candies
         return number_of_candies
 
 
@@ -104,10 +105,15 @@ while number_of_candies > 0:
                 check_taken_candies(player_2)
 
     if number_of_candies <= max_candies:
-        # first_move, second_move = second_move, first_move
         if player == 1 and first_move:
-            print(f'Осталось {number_of_candies} конфет и их забирает ПОБЕДИТЕЛЬ! - игрок : {name_player_1}')
+            print(f'Осталось {number_of_candies} конфет и их забирает ПОБЕДИТЕЛЬ! - игрок 1 1: {name_player_1}')
             break
-        else:
-            print(f'Осталось {number_of_candies} конфет и их забирает ПОБЕДИТЕЛЬ! - игрок :  {name_player_2}')
+        elif player == 2 and first_move:
+            print(f'Осталось {number_of_candies} конфет и их забирает ПОБЕДИТЕЛЬ! - игрок 2 1:  {name_player_2}')
+            break
+        elif player == 1 and second_move:
+            print(f'Осталось {number_of_candies} конфет и их забирает ПОБЕДИТЕЛЬ! - игрок 1 2:  {name_player_2}')
+            break
+        elif player == 2 and second_move:
+            print(f'Осталось {number_of_candies} конфет и их забирает ПОБЕДИТЕЛЬ! - игрок 2 2 :  {name_player_1}')
             break
