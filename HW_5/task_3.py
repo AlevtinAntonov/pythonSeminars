@@ -69,6 +69,8 @@ play(board)
 # 2 вариант tkinter
 # from tkinter import *
 # from tkinter import messagebox
+# import sys
+# import os
 #
 # root = Tk()
 # root.title('Крестики - нолики')
@@ -79,7 +81,9 @@ play(board)
 # playArea = []
 # standings = []
 #
-#
+# def new_game():
+#     python = sys.executable
+#     os.execl(python, python, *sys.argv)
 # def play(n):
 #     global player
 #     btn[n].config(text='X' if player else 'O', state=DISABLED)
@@ -112,5 +116,7 @@ play(board)
 #         btn[i * 3 + j].pack(expand=YES, fill=BOTH, side=LEFT, padx=1, pady=1)
 #         playArea.append(0)
 #         standings.append(0)
+# new_button = Button(root, text='Новая игра', command=new_game)
+# new_button.pack(expand=YES, fill=BOTH)
 #
 # root.mainloop()

@@ -106,14 +106,14 @@ while number_of_candies > 0:
 
     if number_of_candies <= max_candies:
         if player == 1 and first_move:
-            print(f'Осталось {number_of_candies} конфет и их забирает ПОБЕДИТЕЛЬ! - игрок 1 1: {name_player_1}')
+            print(f'Осталось {number_of_candies} конфет и их забирает ПОБЕДИТЕЛЬ! - игрок : {name_player_1}')
             break
         elif player == 2 and first_move:
-            print(f'Осталось {number_of_candies} конфет и их забирает ПОБЕДИТЕЛЬ! - игрок 2 1:  {name_player_2}')
+            print(f'Осталось {number_of_candies} конфет и их забирает ПОБЕДИТЕЛЬ! - игрок :  {name_player_2}')
             break
         elif player == 1 and second_move:
-            print(f'Осталось {number_of_candies} конфет и их забирает ПОБЕДИТЕЛЬ! - игрок 1 2:  {name_player_2}')
+            print(f'Осталось {number_of_candies} конфет и их забирает ПОБЕДИТЕЛЬ! - игрок :  {name_player_2}')
             break
         elif player == 2 and second_move:
-            print(f'Осталось {number_of_candies} конфет и их забирает ПОБЕДИТЕЛЬ! - игрок 2 2 :  {name_player_1}')
+            print(f'Осталось {number_of_candies} конфет и их забирает ПОБЕДИТЕЛЬ! - игрок :  {name_player_1}')
             break
