@@ -10,7 +10,7 @@
 # (1+2)*3 => 9;
 
 # expression = input('Введите выражение ')
-expression = '(1+2)*3'
+expression = '(4+(2+2)*3)/4'
 
 OPERATORS = {'+': (1, lambda x, y: x + y), '-': (1, lambda x, y: x - y),
              '*': (2, lambda x, y: x * y), '/': (2, lambda x, y: x / y)}
@@ -64,3 +64,4 @@ def eval_(formula):
     return calc(shunting_yard(parse(formula)))
 
 print(eval_(expression))
+
