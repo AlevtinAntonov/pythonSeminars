@@ -9,8 +9,48 @@
 # 1+2*3 => 7;
 # (1+2)*3 => 9;
 
-# expression = input('Введите выражение ')
-expression = '(4+(2+2)*3)/4'
+
+# expression = '1-2*3'
+expression = '((1+(2*3))*2)+(4+2)*2/4'
+
+# Вапиант 1
+def calculation(expr):
+    operator_function = {
+        '-': lambda x, y: x - y,
+        '+': lambda x, y: x + y,
+        '*': lambda x, y: x * y,
+        '/': lambda x, y: x / y,
+    }
+
+    nums = []
+    opers = []
+
+    tokens = list('(' + expr + ')')
+
+    while tokens:
+        token = tokens.pop(0)
+
+        if token.isdecimal():
+            nums.append(float(token))
+        else:
+            if token == ')':
+                oper = opers.pop()
+                while opers and oper != '(':
+                    b, a = nums.pop(), nums.pop()
+                    f = operator_function[oper]
+                    nums.append(f(a, b))
+
+                    oper = opers.pop()
+
+            else:
+                opers.append(token)
+
+    return nums[0]
+
+
+print(f'1 вариант {expression} = {calculation(expression)}')
+
+# Вапиант 2 Польская обратная запись
 
 OPERATORS = {'+': (1, lambda x, y: x + y), '-': (1, lambda x, y: x - y),
              '*': (2, lambda x, y: x * y), '/': (2, lambda x, y: x / y)}
@@ -50,7 +90,6 @@ def eval_(formula):
         while stack:
             yield stack.pop()
 
-
     def calc(polish):
         stack = []
         for token in polish:
@@ -63,5 +102,5 @@ def eval_(formula):
 
     return calc(shunting_yard(parse(formula)))
 
-print(eval_(expression))
 
+print(f'2 вариант {expression} = {eval_(expression)}')
