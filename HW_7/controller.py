@@ -10,13 +10,17 @@ def run():
 
         match answer:
             case '1':   # 1 - Показать справочник
-                result = model.show_book()
+                model.show_book()
+                result = 'Просмотр справочника'
             case '2':   # 2 - Добавить контакт
-                pass
-            case '3':   # 3 - Редактировать контакт
-                pass
+                model.add_contact()
+                result = model.contact_details
+            case '3':   # 3 - Найти контакт
+                model.search_contact()
+                result = model.search_result
             case '4':   # 4 - Удалить контакт
-                pass
+                model.delete_contact()
+                result = model.delete_result
             case '5':   # 5 - Загрузить справочник
                 pass
             case '6':   # 6 - Сохранить справочник
