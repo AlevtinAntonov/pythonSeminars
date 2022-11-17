@@ -17,14 +17,16 @@ def run():
                 result = model.contact_details
             case '3':   # 3 - Найти контакт
                 model.search_contact()
-                result = model.search_result
+                result = 'Поиск ' + model.search_result
             case '4':   # 4 - Удалить контакт
                 model.delete_contact()
-                result = model.delete_result
+                result = 'Удаление контакта с ИД ' + model.delete_id
             case '5':   # 5 - Загрузить справочник
-                pass
+                model.load_phonebook()
+                result = 'Загрузка справочника'
             case '6':   # 6 - Сохранить справочник
-                pass
+                model.save_as_new_file()
+                result = 'Файл сохранен под именем' + model.second_file_name
             case '7':   # 7 - Выход
                 exit()
 
