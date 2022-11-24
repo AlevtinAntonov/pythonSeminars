@@ -29,7 +29,7 @@ keyboard.row(telebot.types.InlineKeyboardButton('1', callback_data='1'),
 
 keyboard.row(telebot.types.InlineKeyboardButton(' ', callback_data='no'),
              telebot.types.InlineKeyboardButton('0', callback_data='0'),
-             telebot.types.InlineKeyboardButton(',', callback_data=','),
+             telebot.types.InlineKeyboardButton('.', callback_data='.'),
              telebot.types.InlineKeyboardButton('=', callback_data='='))
 
 
@@ -50,10 +50,10 @@ def callback_func(query):
     if data == 'no':
         pass
     elif data == 'C':
-        value = '0'
+        value = ''
     elif data == '<=':
         if value != '':
-            value = value[:len(value)-1]
+            value = value[:len(value) - 1]
     elif data == '=':
         try:
             value = str(eval(value))
@@ -62,20 +62,18 @@ def callback_func(query):
     else:
         value += data
 
-    if (value != old_value and value != '') and ('0' != old_value and value == ''):
+    if (value != old_value and value != '') or ('0' != old_value and value == ''):
         if value == '':
             bot.edit_message_text(chat_id=query.message.chat.id, message_id=query.message.message_id, text='0',
                                   reply_markup=keyboard)
             old_value = '0'
-    else:
-        bot.edit_message_text(chat_id=query.message.chat.id, message_id=query.message.message_id, text=value,
-                              reply_markup=keyboard)
-        old_value = value
+        else:
+            bot.edit_message_text(chat_id=query.message.chat.id, message_id=query.message.message_id, text=value,
+                                  reply_markup=keyboard)
+            old_value = value
 
 
 if value == 'Ошибка!':
     value = ''
 
 bot.polling(none_stop=False, interval=0)
-# bot.polling(none_stop=True)
-# bot.infinity_polling()
