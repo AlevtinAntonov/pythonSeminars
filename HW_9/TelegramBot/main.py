@@ -1,5 +1,6 @@
 import telebot
 from my_token import my_token
+from logger import LOG
 
 bot = telebot.TeleBot(my_token)
 
@@ -34,7 +35,9 @@ keyboard.row(telebot.types.InlineKeyboardButton(' ', callback_data='no'),
 
 
 @bot.message_handler(commands=['start', 'calculator'])
+@LOG
 def getMessage(message):
+    '''Get Message'''
     global value
     if value == '':
         bot.send_message(message.from_user.id, '0', reply_markup=keyboard)
@@ -43,7 +46,9 @@ def getMessage(message):
 
 
 @bot.callback_query_handler(func=lambda call: True)
+@LOG
 def callback_func(query):
+    '''Калькулятор'''
     global value, old_value
     data = query.data
 
@@ -61,6 +66,7 @@ def callback_func(query):
             value = 'Ошибка!'
     else:
         value += data
+
 
     if (value != old_value and value != '') or ('0' != old_value and value == ''):
         if value == '':
