@@ -1,363 +1,134 @@
-from tkinter import *
+import random as r
+import sys
+import tkinter as tk
 from tkinter import messagebox
+from minimax_algorithm import get_symbol, find_best_move, update_state, is_draw
 
-root = Tk()
-root.title('Игра Крестики-Нолики')
-
-
-# X начинает
-clicked = True
-count = 0
+sys.setrecursionlimit(10000)
 
 
-def disable_all_buttons():
-    b1.config(state=DISABLED)
-    b2.config(state=DISABLED)
-    b3.config(state=DISABLED)
-    b4.config(state=DISABLED)
-    b5.config(state=DISABLED)
-    b6.config(state=DISABLED)
-    b7.config(state=DISABLED)
-    b8.config(state=DISABLED)
-    b9.config(state=DISABLED)
+def build_gui(dim):
+    root = tk.Tk()
+
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+    x = (screen_width / 2) - (dim[0] / 2)
+    y = (screen_height / 2) - (dim[1] / 2)
+    root.geometry(f'{dim[0]}x{dim[1]}+{int(x)}+{int(y)}')
+
+    App(root, dim).pack(side="top", fill="both", expand=True)
+    root.mainloop()
 
 
-def checkifwon():
-    global winner
-    winner = False
+class App(tk.Frame):
+    def __init__(self, parent, dim, **kw):
+        super().__init__(parent, **kw)
+        parent.minsize(dim[0], dim[1])
+        parent.title("Крестики-Нолики")
+        self.define_display_widgets()
+        messagebox.showinfo("Приветствие", "Добро пожаловать в  игру! ")
+        self.ttt_grid = Grid(self, {"tile_color": "black"})
 
-    if b1["text"] == "X" and b2["text"] == "X" and b3["text"] == "X":
-        b1.config(bg="red")
-        b2.config(bg="red")
-        b3.config(bg="red")
-        winner = True
-        messagebox.showinfo("Крестики-Нолики", "ПОЗДРАВЛЯЕМ !  X ВЫИГРАЛ !!")
-        disable_all_buttons()
-    elif b4["text"] == "X" and b5["text"] == "X" and b6["text"] == "X":
-        b4.config(bg="red")
-        b5.config(bg="red")
-        b6.config(bg="red")
-        winner = True
-        messagebox.showinfo("Крестики-Нолики", "ПОЗДРАВЛЯЕМ !  X ВЫИГРАЛ !!")
-        disable_all_buttons()
+    def define_display_widgets(self):
+        self.reset = tk.Button(self, text="Новая игра", bg="grey", fg="white", command=self.reset_all)
+        self.reset.pack()
 
-    elif b7["text"] == "X" and b8["text"] == "X" and b9["text"] == "X":
-        b7.config(bg="red")
-        b8.config(bg="red")
-        b9.config(bg="red")
-        winner = True
-        messagebox.showinfo("Крестики-Нолики", "ПОЗДРАВЛЯЕМ !  X ВЫИГРАЛ !!")
-        disable_all_buttons()
-
-    elif b1["text"] == "X" and b4["text"] == "X" and b7["text"] == "X":
-        b1.config(bg="red")
-        b4.config(bg="red")
-        b7.config(bg="red")
-        winner = True
-        messagebox.showinfo("Крестики-Нолики", "ПОЗДРАВЛЯЕМ !  X ВЫИГРАЛ !!")
-        disable_all_buttons()
-
-    elif b2["text"] == "X" and b5["text"] == "X" and b8["text"] == "X":
-        b2.config(bg="red")
-        b5.config(bg="red")
-        b8.config(bg="red")
-        winner = True
-        messagebox.showinfo("Крестики-Нолики", "ПОЗДРАВЛЯЕМ !  X ВЫИГРАЛ !!")
-        disable_all_buttons()
-
-    elif b3["text"] == "X" and b6["text"] == "X" and b9["text"] == "X":
-        b3.config(bg="red")
-        b6.config(bg="red")
-        b9.config(bg="red")
-        winner = True
-        messagebox.showinfo("Крестики-Нолики", "ПОЗДРАВЛЯЕМ !  X ВЫИГРАЛ !!")
-        disable_all_buttons()
-
-    elif b1["text"] == "X" and b5["text"] == "X" and b9["text"] == "X":
-        b1.config(bg="red")
-        b5.config(bg="red")
-        b9.config(bg="red")
-        winner = True
-        messagebox.showinfo("Крестики-Нолики", "ПОЗДРАВЛЯЕМ !  X ВЫИГРАЛ !!")
-        disable_all_buttons()
-
-    elif b3["text"] == "X" and b5["text"] == "X" and b7["text"] == "X":
-        b3.config(bg="red")
-        b5.config(bg="red")
-        b7.config(bg="red")
-        winner = True
-        messagebox.showinfo("Крестики-Нолики", "ПОЗДРАВЛЯЕМ !  X ВЫИГРАЛ !!")
-        disable_all_buttons()
-
-    elif b1["text"] == "O" and b2["text"] == "O" and b3["text"] == "O":
-        b1.config(bg="red")
-        b2.config(bg="red")
-        b3.config(bg="red")
-        winner = True
-        messagebox.showinfo("Крестики-Нолики", "ПОЗДРАВЛЯЕМ !  0 ВЫИГРАЛ !!")
-        disable_all_buttons()
-    elif b4["text"] == "O" and b5["text"] == "O" and b6["text"] == "O":
-        b4.config(bg="red")
-        b5.config(bg="red")
-        b6.config(bg="red")
-        winner = True
-        messagebox.showinfo("Крестики-Нолики", "ПОЗДРАВЛЯЕМ !  0 ВЫИГРАЛ !!")
-        disable_all_buttons()
-
-    elif b7["text"] == "O" and b8["text"] == "O" and b9["text"] == "O":
-        b7.config(bg="red")
-        b8.config(bg="red")
-        b9.config(bg="red")
-        winner = True
-        messagebox.showinfo("Крестики-Нолики", "ПОЗДРАВЛЯЕМ !  0 ВЫИГРАЛ !!")
-        disable_all_buttons()
-
-    elif b1["text"] == "O" and b4["text"] == "O" and b7["text"] == "O":
-        b1.config(bg="red")
-        b4.config(bg="red")
-        b7.config(bg="red")
-        winner = True
-        messagebox.showinfo("Крестики-Нолики", "ПОЗДРАВЛЯЕМ !  0 ВЫИГРАЛ !!")
-        disable_all_buttons()
-
-    elif b2["text"] == "O" and b5["text"] == "O" and b8["text"] == "O":
-        b2.config(bg="red")
-        b5.config(bg="red")
-        b8.config(bg="red")
-        winner = True
-        messagebox.showinfo("Крестики-Нолики", "ПОЗДРАВЛЯЕМ !  0 ВЫИГРАЛ !!")
-        disable_all_buttons()
-
-    elif b3["text"] == "O" and b6["text"] == "O" and b9["text"] == "O":
-        b3.config(bg="red")
-        b6.config(bg="red")
-        b9.config(bg="red")
-        winner = True
-        messagebox.showinfo("Крестики-Нолики", "ПОЗДРАВЛЯЕМ !  0 ВЫИГРАЛ !!")
-        disable_all_buttons()
-
-    elif b1["text"] == "O" and b5["text"] == "O" and b9["text"] == "O":
-        b1.config(bg="red")
-        b5.config(bg="red")
-        b9.config(bg="red")
-        winner = True
-        messagebox.showinfo("Крестики-Нолики", "ПОЗДРАВЛЯЕМ !  0 ВЫИГРАЛ !!")
-        disable_all_buttons()
-
-    elif b3["text"] == "O" and b5["text"] == "O" and b7["text"] == "O":
-        b3.config(bg="red")
-        b5.config(bg="red")
-        b7.config(bg="red")
-        winner = True
-        messagebox.showinfo("Крестики-Нолики", "ПОЗДРАВЛЯЕМ !  0 ВЫИГРАЛ !!")
-        disable_all_buttons()
-
-    if count == 9 and winner == False:
-        messagebox.showinfo("Крестики-Нолики", "ЭТО НИЧЬЯ! \n Никто Не Выиграл!")
-        disable_all_buttons()
+    def reset_all(self):
+        self.ttt_grid.disable_or_reset(disable=False)
 
 
-def b_click(b):
-    global clicked, count
+class Grid(tk.Frame):
 
-    if b["text"] == " " and clicked == True:
-        b["text"] = "X"
-        clicked = False
-        count += 1
-        checkifwon()
-    elif b["text"] == " " and clicked == False:
-        b["text"] = "O"
-        clicked = True
-        count += 1
-        checkifwon()
-    else:
-        messagebox.showerror("Крестики-Нолики", "Эта клетка уже выбрана\n Выбери другую клетку...")
+    def __init__(self, parent, config, **kw):
+        super().__init__(parent, **kw)
+        self.b = [[], [], []]
+        self.config = config
+        self.draw_grid()
+        self.pack(pady=15)
+        self.set_algo()
+
+    def draw_grid(self):
+        for i in range(3):
+            for j in range(3):
+                self.b[i].append(self.button())
+                self.b[i][j].config(command=lambda row=i, col=j: self.fill(row, col))
+                self.b[i][j].grid(row=i, column=j)
+
+    def button(self):
+        return tk.Button(self, bd=5, width=3, font=('arial', 30, 'bold'), relief=tk.GROOVE)
+
+    def fill(self, i, j):
+        self.b[i][j].config(text=get_symbol(self.turn), state=tk.DISABLED, fg="white")
+        self.algo_value[i * 3 + j] = get_symbol(self.turn)
+        status = self.check_if_game_ended("Игрок")
+        if status: return
+        self.turn = update_state(self.algo_value, i, j, self.turn)
+        self.ai_move()
+
+    def ai_move(self, start=None):
+        if start:
+            move, s = start, 0
+        else:
+            move, s = find_best_move(self.algo_value, True, self.turn)
+        index = 0
+        for i in range(9):
+            if self.algo_value[i] != move[i]:
+                index = i
+                break
+        self.algo_value = move
+        self.b[index // 3][index % 3].config(text=get_symbol(self.turn), state=tk.DISABLED, fg="white")
+        self.turn = not self.turn
+        self.check_if_game_ended("Компьютер")
+
+    def check_if_game_ended(self, player):
+        if is_draw(self.algo_value):
+            messagebox.showinfo("Информация", "        Ничья !!!           ")
+            return True
+        is_own, v = self.has_won()
+        if is_own:
+            self.highlight(v)
+            messagebox.showinfo("Информация", "   {}    Победил !".format(player))
+
+            return True
+        return False
+
+    def highlight(self, v):
+        for x in v:
+            self.b[x // 3][x % 3].config(fg="black", bg="red")
+        self.disable_or_reset()
+
+    def disable_or_reset(self, disable=True):
+        for i in range(3):
+            for j in range(3):
+                if disable:
+                    self.b[i][j].config(state=tk.DISABLED)
+                else:
+                    self.b[i][j].config(text="", bg=self.cget('bg'), fg="black", state=tk.NORMAL)
+        if not disable: self.set_algo()
+
+    def set_algo(self):
+        val = messagebox.askquestion("Информация", "Могу я начать первым ?")
+        self.algo_value = [-1] * 9
+        self.turn = True
+        if val == "yes":
+            i = r.choice([2, 0, 6, 8, 1, 3, 5, 7])
+            m = self.algo_value[:]
+            m[i] = 'X'
+            self.ai_move(m)
+
+    def has_won(self):
+        curr = self.algo_value
+        for i in range(3):
+            if curr[3 * i] == curr[3 * i + 1] == curr[3 * i + 2] != -1:
+                return True, (3 * i, 3 * i + 1, 3 * i + 2)
+            if curr[0 + i] == curr[3 + i] == curr[6 + i] != -1:
+                return True, (0 + i, 3 + i, 6 + i)
+        if curr[0] == curr[4] == curr[8] != -1:
+            return True, (0, 4, 8)
+        if curr[2] == curr[4] == curr[6] != -1:
+            return True, (2, 4, 6)
+        return False, None
 
 
-def reset():
-    global b1, b2, b3, b4, b5, b6, b7, b8, b9
-    global clicked, count
-    clicked = True
-    count = 0
-
-    b1 = Button(root, text=" ", font=("Helvetica", 20), height=3, width=6, bg="SystemButtonFace",
-                command=lambda: b_click(b1))
-    b2 = Button(root, text=" ", font=("Helvetica", 20), height=3, width=6, bg="SystemButtonFace",
-                command=lambda: b_click(b2))
-    b3 = Button(root, text=" ", font=("Helvetica", 20), height=3, width=6, bg="SystemButtonFace",
-                command=lambda: b_click(b3))
-
-    b4 = Button(root, text=" ", font=("Helvetica", 20), height=3, width=6, bg="SystemButtonFace",
-                command=lambda: b_click(b4))
-    b5 = Button(root, text=" ", font=("Helvetica", 20), height=3, width=6, bg="SystemButtonFace",
-                command=lambda: b_click(b5))
-    b6 = Button(root, text=" ", font=("Helvetica", 20), height=3, width=6, bg="SystemButtonFace",
-                command=lambda: b_click(b6))
-
-    b7 = Button(root, text=" ", font=("Helvetica", 20), height=3, width=6, bg="SystemButtonFace",
-                command=lambda: b_click(b7))
-    b8 = Button(root, text=" ", font=("Helvetica", 20), height=3, width=6, bg="SystemButtonFace",
-                command=lambda: b_click(b8))
-    b9 = Button(root, text=" ", font=("Helvetica", 20), height=3, width=6, bg="SystemButtonFace",
-                command=lambda: b_click(b9))
-
-    b1.grid(row=0, column=0)
-    b2.grid(row=0, column=1)
-    b3.grid(row=0, column=2)
-
-    b4.grid(row=1, column=0)
-    b5.grid(row=1, column=1)
-    b6.grid(row=1, column=2)
-
-    b7.grid(row=2, column=0)
-    b8.grid(row=2, column=1)
-    b9.grid(row=2, column=2)
-
-
-my_menu = Menu(root)
-root.config(menu=my_menu)
-
-options_menu = Menu(my_menu, tearoff=False)
-my_menu.add_cascade(label="Меню", menu=options_menu)
-options_menu.add_command(label="Новая Игра", command=reset)
-
-reset()
-
-root.mainloop()
-
-
-# # Инициализация карты
-# maps = [1, 2, 3,
-#         4, 5, 6,
-#         7, 8, 9]
-#
-# # Инициализация победных линий
-# victories = [[0, 1, 2],
-#              [3, 4, 5],
-#              [6, 7, 8],
-#              [0, 3, 6],
-#              [1, 4, 7],
-#              [2, 5, 8],
-#              [0, 4, 8],
-#              [2, 4, 6]]
-
-#
-# # Вывод карты на экран
-# def print_maps():
-#     print(maps[0], end=" ")
-#     print(maps[1], end=" ")
-#     print(maps[2])
-#
-#     print(maps[3], end=" ")
-#     print(maps[4], end=" ")
-#     print(maps[5])
-#
-#     print(maps[6], end=" ")
-#     print(maps[7], end=" ")
-#     print(maps[8])
-#
-#
-# # Сделать ход в ячейку
-# def step_maps(step, symbol):
-#     ind = maps.index(step)
-#     maps[ind] = symbol
-#
-#
-# # Получить текущий результат игры
-# def get_result():
-#     win = ""
-#
-#     for i in victories:
-#         if maps[i[0]] == "X" and maps[i[1]] == "X" and maps[i[2]] == "X":
-#             win = "X"
-#         if maps[i[0]] == "O" and maps[i[1]] == "O" and maps[i[2]] == "O":
-#             win = "O"
-#
-#     return win
-#
-#
-# # Искусственный интеллект: поиск линии с нужным количеством X и O на победных линиях
-# def check_line(sum_O, sum_X):
-#     step = ""
-#     for line in victories:
-#         o = 0
-#         x = 0
-#
-#         for j in range(0, 3):
-#             if maps[line[j]] == "O":
-#                 o = o + 1
-#             if maps[line[j]] == "X":
-#                 x = x + 1
-#
-#         if o == sum_O and x == sum_X:
-#             for j in range(0, 3):
-#                 if maps[line[j]] != "O" and maps[line[j]] != "X":
-#                     step = maps[line[j]]
-#
-#     return step
-#
-#
-# # Искусственный интеллект: выбор хода
-# def AI():
-#     step = ""
-#
-#     # 1) если на какой либо из победных линий 2 свои фигуры и 0 чужих - ставим
-#     step = check_line(2, 0)
-#
-#     # 2) если на какой либо из победных линий 2 чужие фигуры и 0 своих - ставим
-#     if step == "":
-#         step = check_line(0, 2)
-#
-#         # 3) если 1 фигура своя и 0 чужих - ставим
-#     if step == "":
-#         step = check_line(1, 0)
-#
-#         # 4) центр пуст, то занимаем центр
-#     if step == "":
-#         if maps[4] != "X" and maps[4] != "O":
-#             step = 5
-#
-#             # 5) если центр занят, то занимаем первую ячейку
-#     if step == "":
-#         if maps[0] != "X" and maps[0] != "O":
-#             step = 1
-#
-#     return step
-#
-#
-# # Основная программа
-# game_over = False
-# human = True
-#
-# while game_over == False:
-#
-#     # 1. Показываем карту
-#     print_maps()
-#
-#     # 2. Спросим у играющего куда делать ход
-#     if human == True:
-#         symbol = "X"
-#         step = int(input("Человек, ваш ход: "))
-#     else:
-#         print("Компьютер делает ход: ")
-#         symbol = "O"
-#         step = AI()
-#
-#     # 3. Если компьютер нашел куда сделать ход, то играем. Если нет, то ничья.
-#     if step != "":
-#         step_maps(step, symbol)  # делаем ход в указанную ячейку
-#         win = get_result()  # определим победителя
-#         if win != "":
-#             game_over = True
-#         else:
-#             game_over = False
-#     else:
-#         print("Ничья!")
-#         game_over = True
-#         win = "дружба"
-#
-#     human = not (human)
-#
-# # Игра окончена. Покажем карту. Объявим победителя.
-# print_maps()
-# print("Победил", win)
+if __name__ == '__main__':
+    build_gui(dim=(400, 400))
