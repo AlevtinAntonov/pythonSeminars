@@ -1,6 +1,6 @@
 import telebot
 from my_token import my_token
-from logger import LOG
+from datetime import datetime
 
 bot = telebot.TeleBot(my_token)
 
@@ -35,18 +35,16 @@ keyboard.row(telebot.types.InlineKeyboardButton(' ', callback_data='no'),
 
 
 @bot.message_handler(commands=['start', 'calculator'])
-@LOG
 def getMessage(message):
-    '''Get Message'''
-    global value
+    global value, user
     if value == '':
         bot.send_message(message.from_user.id, '0', reply_markup=keyboard)
     else:
         bot.send_message(message.from_user.id, value, reply_markup=keyboard)
+    user = message.from_user.id
 
 
 @bot.callback_query_handler(func=lambda call: True)
-@LOG
 def callback_func(query):
     '''Калькулятор'''
     global value, old_value
@@ -61,12 +59,13 @@ def callback_func(query):
             value = value[:len(value) - 1]
     elif data == '=':
         try:
+            with open('log.csv', 'a', encoding='utf-8') as log:
+                log.write((f'Пользователь ID= {user} набрал выражение {value} = {str(eval(value))} {datetime.now()}\n'))
             value = str(eval(value))
         except:
             value = 'Ошибка!'
     else:
         value += data
-
 
     if (value != old_value and value != '') or ('0' != old_value and value == ''):
         if value == '':
