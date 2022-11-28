@@ -6,7 +6,6 @@ bot = telebot.TeleBot(my_token)
 
 value = ''
 old_value = ''
-
 keyboard = telebot.types.InlineKeyboardMarkup()
 keyboard.row(telebot.types.InlineKeyboardButton(' ', callback_data='no'),
              telebot.types.InlineKeyboardButton('C', callback_data='C'),
