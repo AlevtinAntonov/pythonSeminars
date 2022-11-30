@@ -1,9 +1,11 @@
+import re
 from sympy import Symbol, collect
 
 
 def convert(item):
-    item = item.replace('=0', '')
+    item = re.sub(r'(\d)(x)', r'\1*\2', item)
     item = item.replace('^', '**')
+    item = item[:-2:]
     return item
 
 

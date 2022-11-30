@@ -9,12 +9,15 @@ messages = {'start': 'Добро пожаловать\n' \
                      '/help описание действий\n'
                      '/run запуск программы суммы многочленов',
             'run': 'Введите первый многочлен Next второй многочлен Enter',
-            'help': 'Наберите первый многочлен с переменной Х и нажмите Next\n'
-                    'Наберите второй многочлен с переменной Х и нажмите Enter\n'
+            'help': 'Наберите первый многочлен с переменной Х\n'
+                    '(например: 3x^3-2x^2+x-5=0) и нажмите Next\n'
+                    'Наберите второй многочлен с переменной Х\n'
+                    '(например:5x^2-6x+15=0) и нажмите Enter\n'
                     'Программа вычислит сумму двух многочленов'
             }
 value = ''
 old_value = ''
+
 keyboard = telebot.types.InlineKeyboardMarkup()
 keyboard.row(telebot.types.InlineKeyboardButton('C', callback_data='C'),
              telebot.types.InlineKeyboardButton('<=', callback_data='<='),
@@ -79,16 +82,13 @@ def callback_func(query):
     elif data == '#':
         try:
             polynom.append(convert(value))
-            print(f'1 {polynom}')
             value = ''
         except:
             value = 'Ошибка!'
     elif data == '##':
         try:
             polynom.append(convert(value))
-            print(f'2 {polynom}')
             value = polynom_sum(polynom[0], polynom[1])
-            print(f'3 {value}')
             polynom.clear()
         except:
             value = 'Ошибка!'
