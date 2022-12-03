@@ -4,7 +4,7 @@ from func_polynom import polynom_sum, convert
 
 bot = telebot.TeleBot(my_token)
 
-messages = {'start': 'Добро пожаловать\n' \
+messages = {'start': 'Добро пожаловать\n'
                      'Выберите в меню действие:\n'
                      '/help описание действий\n'
                      '/run запуск программы суммы многочленов',
